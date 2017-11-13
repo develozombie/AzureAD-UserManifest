@@ -1,19 +1,30 @@
 <?php
 
-$vara = new Manifiesto();
-$vara->RolesToArray("");
+$mfst = new Manifiesto();
+$mfst->GenerarManifiesto();
 
 class Manifiesto
 {
     public function GenerarManifiesto()
     {
-
+        $result = $this->RolesToArray('admin,observer,auditoria', 'encargado de administrar,encargado de observar,encargado de molestar');
     }
-    public function RolesToArray($roles)
+    public function RolesToArray($roles, $descripciones)
     {
-        $demo = new Role();
-        $demo->setGuid();
-        echo $demo->getGuid();
+        $roles = explode(',', $roles);
+        $descripciones = explode(',', $descripciones);
+
+        for ($i=0; $i < count($roles); ++$i) 
+        { 
+            $role = new Role();
+            $role->setNombre($roles[$i]);
+            $role->setDescripcion($descripciones[$i]);
+            $role->setGuid();
+
+            $result[$i] = $role;
+            
+        }
+        return $result;
     }
 }
 
@@ -87,7 +98,5 @@ class Guid
         return $guidv4;
     }
 }
-
-
 
 ?>
